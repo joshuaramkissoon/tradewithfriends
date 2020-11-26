@@ -5,8 +5,12 @@ class CurrencyFormatter {
   final currencyFormat = NumberFormat('#,##0.00', 'en_US');
 
   String convertPriceToString(double price) {
-    String currency = currencyFormat.format(price);
-    return '\$$currency';
+    String currency = currencyFormat.format(price.abs());
+    if (price < 0) {
+      return '-\$$currency';
+    } else {
+      return '\$$currency';
+    }
   }
 }
 

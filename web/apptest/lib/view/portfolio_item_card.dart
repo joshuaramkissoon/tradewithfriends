@@ -6,8 +6,10 @@ import 'package:apptest/view/currency_text.dart';
 class StockStatistic extends StatefulWidget {
   String title;
   String value;
+  Color color;
 
-  StockStatistic({Key key, this.title, this.value}) : super(key: key);
+  StockStatistic({Key key, this.title, this.value, this.color})
+      : super(key: key);
 
   @override
   _StockStatisticState createState() => _StockStatisticState();
@@ -22,7 +24,7 @@ class _StockStatisticState extends State<StockStatistic> {
         SizedBox(
           height: 7,
         ),
-        DescriptionText(text: widget.value)
+        DescriptionText(text: widget.value, color: widget.color)
       ],
     );
   }
@@ -50,8 +52,9 @@ class _TitleTextState extends State<TitleText> {
 
 class DescriptionText extends StatefulWidget {
   String text;
+  Color color;
 
-  DescriptionText({Key key, this.text}) : super(key: key);
+  DescriptionText({Key key, this.text, this.color}) : super(key: key);
 
   @override
   _DescriptionTextState createState() => _DescriptionTextState();
@@ -65,7 +68,7 @@ class _DescriptionTextState extends State<DescriptionText> {
       style: TextStyle(
         fontSize: 21,
         fontWeight: FontWeight.w500,
-        color: Colors.black,
+        color: widget.color == null ? Colors.black : widget.color,
       ),
     );
   }
@@ -162,9 +165,9 @@ class _PortfolioItemCardState extends State<PortfolioItemCard> {
   double price;
   void fetchPrice() async {
     try {
-      price = await widget.item.stock.getLastPrice();
+      double p = await widget.item.stock.getLastPrice();
       setState(() {
-        // price = '\$$p';
+        price = p;
         print('${widget.item.stock.ticker} at $price');
       });
     } catch (e) {
@@ -184,9 +187,9 @@ class _PortfolioItemCardState extends State<PortfolioItemCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 190,
+      height: 200,
       child: Card(
-        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+        margin: EdgeInsets.fromLTRB(0, 16.0, 16.0, 16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -204,7 +207,24 @@ class _PortfolioItemCardState extends State<PortfolioItemCard> {
                           title: 'Last Price',
                           value:
                               CurrencyFormatter().convertPriceToString(price)),
-                  StockStatistic(title: 'Profit', value: '+\$76')
+                  price == null
+                      ? StockStatistic(title: 'Amount Change', value: 'Loading')
+                      : StockStatistic(
+                          title: 'Amount Change',
+                          value: '${widget.item.getChangeString(price)}',
+                          color: widget.item.getChangeAmount(price) < 0
+                              ? Colors.red
+                              : Colors.green),
+                  price == null
+                      ? StockStatistic(title: '% Change', value: 'Loading')
+                      : StockStatistic(
+                          title: '% Change',
+                          value:
+                              '${widget.item.getChangePercentage(price).abs()}%',
+                          color: widget.item.getChangePercentage(price) < 0
+                              ? Colors.red
+                              : Colors.green),
+                  // StockStatistic(title: 'Profit', value: '+\$76')
                 ],
               ),
             ),

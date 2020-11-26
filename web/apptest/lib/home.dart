@@ -24,9 +24,9 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  Stock tsla;
-  Stock aapl;
-  Stock goog;
+  Stock pypl;
+  Stock fsly;
+  Stock sq;
   Stock pltr;
 
   Portfolio portfolio;
@@ -36,20 +36,27 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
-
     portfolio = buildPortfolio();
   }
 
   Portfolio buildPortfolio() {
-    tsla = Stock(name: 'Fastly', ticker: 'FSLY');
-    goog = Stock(name: 'Square', ticker: 'SQ');
-    aapl = Stock(name: 'PayPal', ticker: 'PYPL');
+    Stock baba = Stock(name: 'Alibaba', ticker: 'BABA');
+    Stock goog = Stock(name: 'Alphabet Inc. Class A', ticker: 'GOOG');
+    Stock nkla = Stock(name: 'Nikola Corporation', ticker: 'NKLA');
+    Stock work = Stock(name: 'Slack', ticker: 'WORK');
+    fsly = Stock(name: 'Fastly', ticker: 'FSLY');
+    sq = Stock(name: 'Square', ticker: 'SQ');
+    pypl = Stock(name: 'PayPal', ticker: 'PYPL');
     pltr = Stock(name: 'Palantir', ticker: 'PLTR');
     List<PortfolioItem> items = [
-      PortfolioItem(stock: aapl, quantity: 5.0),
-      PortfolioItem(stock: tsla, quantity: 10.4),
-      PortfolioItem(stock: goog, quantity: 6.3),
-      PortfolioItem(stock: pltr, quantity: 6.3),
+      PortfolioItem(stock: baba, quantity: 3.89, averagePrice: 256.72),
+      PortfolioItem(stock: goog, quantity: 3.28, averagePrice: 1763.84),
+      PortfolioItem(stock: work, quantity: 7.28, averagePrice: 29.98),
+      PortfolioItem(stock: nkla, quantity: 36, averagePrice: 25.74),
+      // PortfolioItem(stock: pypl, quantity: 5.0, averagePrice: 3212), //160.6
+      // PortfolioItem(stock: fsly, quantity: 10.4, averagePrice: 100.00),
+      // PortfolioItem(stock: sq, quantity: 6.3, averagePrice: 45.60),
+      PortfolioItem(stock: pltr, quantity: 38.93, averagePrice: 17.98),
     ];
     return Portfolio(items: items, user: User(name: 'Josh', uid: '1234'));
   }
@@ -57,6 +64,7 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      padding: EdgeInsets.all(20),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
         child: Center(
