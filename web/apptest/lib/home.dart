@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'model/stock.dart';
 import 'package:apptest/model/user.dart';
 import 'view/portfolio_item_card.dart';
+import 'package:apptest/view/portfolio_options_card.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -64,17 +65,38 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(20),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
+        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
         child: Center(
           child: Column(
-            children: portfolio.items
-                .map((item) => PortfolioItemCard(item: item))
-                .toList(),
+            children: [
+              AddStockButton(),
+              PortfolioAssetsList(portfolio: portfolio)
+            ],
           ),
         ),
       ),
     );
+  }
+}
+
+class PortfolioAssetsList extends StatefulWidget {
+  Portfolio portfolio;
+
+  PortfolioAssetsList({Key key, this.portfolio}) : super(key: key);
+
+  @override
+  _PortfolioAssetsListState createState() => _PortfolioAssetsListState();
+}
+
+class _PortfolioAssetsListState extends State<PortfolioAssetsList> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+      children: widget.portfolio.items
+          .map((item) => PortfolioItemCard(item: item))
+          .toList(),
+    ));
   }
 }

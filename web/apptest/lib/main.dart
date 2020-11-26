@@ -1,3 +1,4 @@
+import 'package:apptest/screens/find_stock.dart';
 import 'package:flutter/material.dart';
 import 'sign_up.dart';
 import 'home.dart';
@@ -16,6 +17,7 @@ class TradeApp extends StatelessWidget {
         // '/': (context) => Loading(),
         '/': (context) => Home(),
         '/sign_up': (context) => SignUpScreen(),
+        '/find_stocks': (context) => FindStock(),
       },
     );
   }
